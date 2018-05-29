@@ -1,5 +1,4 @@
-﻿using UnityEditor;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Assets.Scripts.Player
 {
@@ -12,41 +11,13 @@ namespace Assets.Scripts.Player
 
         private void OnTriggerEnter(Collider other)
         {
-            Player someBobody = other.GetComponent<Player>();
-
-            if (someBobody != null && someBobody != Owner)
+            if (Owner.IsAtacking)
             {
-                HitCollider somebodyHitCollider = someBobody.GetComponent<HitCollider>();
+                Player someBobody = other.GetComponent<Player>();
 
-                if (somebodyHitCollider != null)
+                if (someBobody != null && someBobody != Owner)
                 {
-                    switch (somebodyHitCollider.PunchName)
-                    {
-                        case PunchName.CressentKick:
-
-                            someBobody.CressentKickHit();
-                            break;
-
-                        case PunchName.HookPunch:
-
-                            someBobody.HookPunchHit();
-                            break;
-
-                        case PunchName.LeftHandPunch:
-
-                            someBobody.LeftHandPunchHit();
-                            break;
-
-                        case PunchName.RightHandPunch:
-
-                            someBobody.RightHandPunchHit();
-                            break;
-
-                        case PunchName.LegPunch:
-
-                            someBobody.LegPunchHit();
-                            break;
-                    }
+                   someBobody.Heart(PunchName);
                 }
             }
         }

@@ -18,7 +18,7 @@ namespace Assets.Scripts.Player
 
             Player.SetState(State);
 
-            Player.PlayerBody.drag = 0.0f;
+            //Player.PlayerBody.drag = 0.0f;
 
             //Player.PlayerBody.velocity = new Vector3(HorizontalForce, 0.0f, 0.0f);
         }
@@ -31,7 +31,7 @@ namespace Assets.Scripts.Player
 
         public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            Player.PlayerBody.drag = 20.0f;
+            //Player.PlayerBody.drag = 20.0f;
         }
 
         // OnStateMove is called right after Animator.OnAnimatorMove(). Code that processes and affects root motion should be implemented here

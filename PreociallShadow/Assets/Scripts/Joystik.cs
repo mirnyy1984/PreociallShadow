@@ -35,6 +35,8 @@ namespace Assets.Scripts
         public void Down()
         {
             _cursorState = CursorState.OnAction;
+
+            Player.PlayerBody.drag = 0.0f;
         }
 
         public void Up()
@@ -42,6 +44,8 @@ namespace Assets.Scripts
             _cursorState = CursorState.OnReturn;
 
             Player.SetDefaultPlayerState();
+
+            Player.PlayerBody.drag = 0.0f;
         }
 
         private void Update()

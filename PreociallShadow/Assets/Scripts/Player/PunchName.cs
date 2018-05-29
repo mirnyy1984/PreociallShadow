@@ -4,7 +4,7 @@ namespace Assets.Scripts.Player
 {
     public enum PunchName
     {
-        HookPunch, LeftHandPunch, RightHandPunch, LegPunch, CressentKick
+        NoPunch, HookPunch, HandPunch, MmaKick, MmaKick1, MmaKick2, LeftHandPunch, RightHandPunch, LegPunch, CressentKickAttack
 
     }
 }

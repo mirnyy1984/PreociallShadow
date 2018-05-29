@@ -205,8 +205,9 @@ GameObject:
   - component: {fileID: 45614049}
   - component: {fileID: 45614048}
   - component: {fileID: 45614047}
+  - component: {fileID: 45614050}
   m_Layer: 0
-  m_Name: Sphere
+  m_Name: HitCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -278,6 +279,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 45614045}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &45614050
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 45614045}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42065074d5b9bd64d90b88137b394bda, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Owner: {fileID: 1661786165}
+  BodyPart: 3
+  PunchName: 1
+  Damage: 0
 --- !u!1 &93011712
 GameObject:
   m_ObjectHideFlags: 0
@@ -910,23 +926,6 @@ MonoBehaviour:
           m_CallState: 2
       m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
         Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  - eventID: 5
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 737626219}
-          m_MethodName: Drag
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-      m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
-        Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   delegates: []
 --- !u!114 &737626219
 MonoBehaviour:
@@ -1318,7 +1317,7 @@ Rigidbody:
   m_Mass: 1
   m_Drag: 0
   m_AngularDrag: 0.05
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 120
@@ -1332,10 +1331,10 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.4
-  m_Height: 1.1
+  m_Radius: 0.25
+  m_Height: 1.6
   m_Direction: 1
-  m_Center: {x: 0.07, y: 0.54, z: 0.03}
+  m_Center: {x: 0.12, y: 0.78, z: 0.05}
 --- !u!95 &1289302561 stripped
 Animator:
   m_PrefabParentObject: {fileID: 9500000, guid: 2312f3b1b54b60f429f69006d87c4f9d,
@@ -1651,10 +1650,10 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.4
-  m_Height: 1.1
+  m_Radius: 0.15
+  m_Height: 1.6
   m_Direction: 1
-  m_Center: {x: 0.07, y: 0.54, z: 0.03}
+  m_Center: {x: 0.12, y: 0.78, z: 0.15}
 --- !u!1 &1667239701
 GameObject:
   m_ObjectHideFlags: 0
@@ -1805,8 +1804,9 @@ GameObject:
   - component: {fileID: 1804319731}
   - component: {fileID: 1804319730}
   - component: {fileID: 1804319729}
+  - component: {fileID: 1804319732}
   m_Layer: 0
-  m_Name: Sphere
+  m_Name: HitCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1878,6 +1878,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1804319727}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1804319732
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1804319727}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42065074d5b9bd64d90b88137b394bda, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Owner: {fileID: 1661786165}
+  BodyPart: 3
+  PunchName: 1
+  Damage: 0
 --- !u!1 &1921221503
 GameObject:
   m_ObjectHideFlags: 0
@@ -2166,7 +2181,7 @@ Prefab:
     - target: {fileID: 9500000, guid: 2312f3b1b54b60f429f69006d87c4f9d, type: 3}
       propertyPath: m_Controller
       value: 
-      objectReference: {fileID: 9100000, guid: e324a56c3cdedf54a82bf1c6d28c8e80, type: 2}
+      objectReference: {fileID: 9100000, guid: 8d95e9a542364b342bfebc5c55bf0973, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2312f3b1b54b60f429f69006d87c4f9d, type: 3}
   m_IsPrefabParent: 0

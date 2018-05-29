@@ -51,18 +51,35 @@ namespace Assets.Scripts.Player
 
         public void HandPunch()
         {
-            Animator.SetTrigger("HandPunch");
+            if (State != PlayerBehavoirState.HandPunchDamage)
+            {
+                Animator.SetTrigger("HandPunch");
+            }
         }
 
-        /*public void LeftHandPunch()
+        public void MmaKick()
         {
-
+            if (State != PlayerBehavoirState.MmaKickDamage)
+            {
+                Animator.SetTrigger("MmaKick");
+            }            
         }
 
-        public void RightHandPunch()
+        public void MmaKick2()
         {
+            if (State != PlayerBehavoirState.MmaKickDamage)
+            {
+                Animator.SetTrigger("MmaKick2");
+            }
+        }
 
-        }*/
+        public void HookPunchHit()
+        {
+            if (State != PlayerBehavoirState.HeadHitDamage)
+            {
+                Animator.SetTrigger("HeadHit");
+            }
+        }
 
         public void LegPunch()
         {
@@ -71,22 +88,7 @@ namespace Assets.Scripts.Player
 
         public void CressentKick()
         {
-            Animator.SetTrigger("CressentKick"); 
-        }
-
-        public void MmaKick()
-        {
-            Animator.SetTrigger("MmaKick"); 
-        }
-
-        public void MmaKick2()
-        {
-            Animator.SetTrigger("MmaKick2");
-        }
-
-        public void HookPunchHit()
-        {
-
+            Animator.SetTrigger("CressentKick");
         }
 
         public void LeftHandPunchHit()
@@ -111,7 +113,7 @@ namespace Assets.Scripts.Player
 
         public void MmaKickHit()
         {
-         
+
         }
 
         public void WalkForward()
@@ -133,6 +135,51 @@ namespace Assets.Scripts.Player
         public void SetState(PlayerBehavoirState state)
         {
             State = state;
+        }
+
+        public bool IsAtacking()
+        {
+            switch (State)
+            {
+                case PlayerBehavoirState.HookPunch:
+                case PlayerBehavoirState.HandPunch:
+                case PlayerBehavoirState.LeftHandPunch:
+                case PlayerBehavoirState.RightHandPunch:
+                case PlayerBehavoirState.MmaKick:
+                case PlayerBehavoirState.MmaKick1:
+                case PlayerBehavoirState.MmaKick2:
+                case PlayerBehavoirState.LegPunch:
+                case PlayerBehavoirState.CressentKickAttack:
+                    return true;
+            }
+
+            return false;
+        }
+
+        public void Heart(PunchName punchname)
+        {
+            switch (punchname)
+            {
+                case PunchName.HookPunch:
+
+                    HookPunchHit();
+                    break;
+
+                case PunchName.HandPunch:
+
+                    HandPunch();
+                    break;
+
+                case PunchName.MmaKick:
+
+                    MmaKick();
+                    break;
+
+                case PunchName.MmaKick2:
+
+                    MmaKick2();
+                    break;
+            }
         }
     }
 }
