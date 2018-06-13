@@ -2,6 +2,7 @@
 using UnityEngine.UI;
 using System.Collections.Generic;
 using System.Collections;
+using Assets.Scripts.Managers;
 
 namespace Assets.Scripts.Player
 {
@@ -180,11 +181,11 @@ namespace Assets.Scripts.Player
 
             if (transform.name == "PlayerA")
             {
-                GameManager.Instance.DamagePlayer(damage);
+                BattleManager.Instance.DamagePlayer(damage);
             }
             else
             {
-                GameManager.Instance.DamageEnemy(damage);
+                BattleManager.Instance.DamageEnemy(damage);
             }
         }
     }

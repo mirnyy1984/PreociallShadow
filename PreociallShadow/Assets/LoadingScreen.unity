@@ -188,6 +188,11 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 420667867}
+--- !u!1 &421164297 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1030228663607246, guid: 95abd4833e3bfb049aae2c8acb1980b2,
+    type: 2}
+  m_PrefabInternal: {fileID: 995905166}
 --- !u!1 &548862994
 GameObject:
   m_ObjectHideFlags: 0
@@ -539,6 +544,11 @@ Prefab:
       propertyPath: m_ReferenceResolution.y
       value: 1080
       objectReference: {fileID: 0}
+    - target: {fileID: 114495279584745316, guid: 95abd4833e3bfb049aae2c8acb1980b2,
+        type: 2}
+      propertyPath: LoadingScreenObject
+      value: 
+      objectReference: {fileID: 421164297}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 95abd4833e3bfb049aae2c8acb1980b2, type: 2}
   m_IsPrefabParent: 0

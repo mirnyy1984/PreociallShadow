@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
-namespace Assets.Scripts
+namespace Assets.Scripts.Input
 {
     public class Joystik : MonoBehaviour
     {
@@ -160,12 +158,12 @@ namespace Assets.Scripts
 
         private void MoveCursor()
         {
-            Cursor.position = Vector3.MoveTowards(Cursor.position, Input.mousePosition, CursorSpeed);
+            Cursor.position = Vector3.MoveTowards(Cursor.position, UnityEngine.Input.mousePosition, CursorSpeed);
         }
 
         private float DefineCursorAngleDirection()
         {
-            Vector3 direction = new Vector3(CursorHelper.position.x - Input.mousePosition.x, CursorHelper.position.y - Input.mousePosition.y, CursorHelper.position.z);
+            Vector3 direction = new Vector3(CursorHelper.position.x - UnityEngine.Input.mousePosition.x, CursorHelper.position.y - UnityEngine.Input.mousePosition.y, CursorHelper.position.z);
 
             CursorHelper.up = direction;
 

@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using Assets.Scripts.Stats;
 
-[System.Serializable]
-public class Artifact_TestArtifact : Artifact
+namespace Assets.BaseStats.Artifacts
 {
+    [System.Serializable]
+    public class Artifact_TestArtifact : Artifact
+    {
 
 
+    }
 }
