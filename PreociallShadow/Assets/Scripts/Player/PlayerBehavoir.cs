@@ -6,8 +6,11 @@ namespace Assets.Scripts.Player
     {
         public PlayerBehavoirState State;
         public Player Player;
+        public PlayerBehavoirState Reaction;
         public float HorizontalForce;
         public float VerticalForce;
+        public float Damage;
+        public float StaggerDuration = 0.4f;
 
         public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
@@ -17,6 +20,9 @@ namespace Assets.Scripts.Player
             }
 
             Player.SetState(State);
+            Player.SetReaction(Reaction);
+            Player.SetDamage(Damage);
+            Player.Stagger(StaggerDuration);
 
             //Player.PlayerBody.drag = 0.0f;
 
@@ -26,6 +32,7 @@ namespace Assets.Scripts.Player
         public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             Player.PlayerBody.velocity = new Vector3(HorizontalForce, 0.0f, 0.0f);
+
         }
 
 

@@ -1,4 +1,7 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
+using System.Collections.Generic;
+using System.Collections;
 
 namespace Assets.Scripts.Player
 {
@@ -14,6 +17,15 @@ namespace Assets.Scripts.Player
         public Rigidbody PlayerBody;
         public PlayerBehavoirState State;
         public PlayerType Type = PlayerType.Human;
+
+        public bool CanBeAttcked = true; // это нужно чтоб дать 0.4c неуязвимости после получения урона
+
+        private HitCollider[] _hitColliders;
+
+        private void Awake()
+        {
+            _hitColliders = GetComponentsInChildren<HitCollider>();
+        }
 
         private void Update()
         {
@@ -51,67 +63,24 @@ namespace Assets.Scripts.Player
 
         public void HandPunch()
         {
-            if (State != PlayerBehavoirState.HandPunchDamage)
-            {
-                Animator.SetTrigger("HandPunch");
-            }
+            Animator.SetTrigger("HandPunch");
         }
 
         public void MmaKick()
         {
-            if (State != PlayerBehavoirState.MmaKickDamage)
-            {
-                Animator.SetTrigger("MmaKick");
-            }            
+            Animator.SetTrigger("MmaKick");
         }
 
         public void MmaKick2()
         {
-            if (State != PlayerBehavoirState.MmaKickDamage)
-            {
-                Animator.SetTrigger("MmaKick2");
-            }
+           Animator.SetTrigger("MmaKick2");
         }
-
-        public void HookPunchHit()
-        {
-            if (State != PlayerBehavoirState.HeadHitDamage)
-            {
-                Animator.SetTrigger("HeadHit");
-            }
-        }
-
-        public void LegPunch()
-        {
-
-        }
-
         public void CressentKick()
         {
             Animator.SetTrigger("CressentKick");
         }
 
-        public void LeftHandPunchHit()
-        {
-
-        }
-
-        public void RightHandPunchHit()
-        {
-
-        }
-
-        public void LegPunchHit()
-        {
-
-        }
-
-        public void CressentKickHit()
-        {
-
-        }
-
-        public void MmaKickHit()
+        public void LegPunch()
         {
 
         }
@@ -150,35 +119,72 @@ namespace Assets.Scripts.Player
                 case PlayerBehavoirState.MmaKick2:
                 case PlayerBehavoirState.LegPunch:
                 case PlayerBehavoirState.CressentKickAttack:
-                    return true;
+                return true;
             }
 
             return false;
         }
+        
 
-        public void Heart(PunchName punchname)
+        public void Hurt(PlayerBehavoirState reaction)
         {
-            switch (punchname)
+            if (!CanBeAttcked)
+                return;
+            
+            switch (reaction)
             {
-                case PunchName.HookPunch:
+                case PlayerBehavoirState.HeadHitDamage:
 
-                    HookPunchHit();
+                    Animator.Play("HeadHit", 0);
                     break;
 
-                case PunchName.HandPunch:
+                case PlayerBehavoirState.HandPunchDamage:
 
-                    HandPunch();
+                    Animator.SetTrigger("HandPunchDamage");
                     break;
+            }
+        }
 
-                case PunchName.MmaKick:
+        public void Stagger(float time)
+        {
+            StartCoroutine(Invincibility(time));
+        }
 
-                    MmaKick();
-                    break;
+        IEnumerator Invincibility(float time)
+        {
+            CanBeAttcked = false;
+            yield return new WaitForSeconds(time);
+            CanBeAttcked = true;
+        }
 
-                case PunchName.MmaKick2:
+        public void SetReaction(PlayerBehavoirState reaction)
+        {
+            foreach (HitCollider hc in _hitColliders)
+            {
+                hc.Reaction = reaction;
+            }
+        }
 
-                    MmaKick2();
-                    break;
+        public void SetDamage(float value)
+        {
+            //TODO: множитель урона от артефактов здесь 
+            foreach (HitCollider hc in _hitColliders)
+            {
+                hc.Damage = value;
+            }
+        }
+
+        public void RecieveDamage(float damage)
+        {
+            print(transform.name + " got " + damage + " damage");
+
+            if (transform.name == "PlayerA")
+            {
+                GameManager.Instance.DamagePlayer(damage);
+            }
+            else
+            {
+                GameManager.Instance.DamageEnemy(damage);
             }
         }
     }

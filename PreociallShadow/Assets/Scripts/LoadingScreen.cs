@@ -1,88 +1,104 @@
-﻿using System.Collections.Generic;
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class LoadingScreen : MonoBehaviour {
-    
 
-    public Image fader;
-    public Slider progressBar;
-    public float progressBarStep;
-    public float fadeDuration = 0.5f; //Длительность фейда в секундах
+    public static LoadingScreen Instance;
+    public float FadeDuration = 1f; //Длительность фейда в секундах
 
-    bool loaded = false;
-    
-	void Awake () {
-        Color color = Color.black;
-        fader.color = color;
-	}
 
-    private void Start()
+    private GameObject _loadingScreenObject;
+    private Slider _progressBar;
+    private Animator _animator;
+    private bool _loaded;
+    private bool _isBlack;
+
+    void Awake()
     {
-        StartCoroutine(ProgressBar());
-        StartCoroutine("FadeIn");
-    }
+        DontDestroyOnLoad(this);
 
-    private void Update()
-    {
-        if (loaded)
+        if (Instance == null)
         {
-            loaded = false;
-            StartCoroutine("FadeOut");
+            Instance = this;
         }
+
+        if (Instance != this)
+        {
+            DestroyImmediate(this);
+        }
+        //находит canvas потом loading screen
+        _loadingScreenObject = transform.GetChild(0).GetChild(0).gameObject;
+        _loadingScreenObject.SetActive(true);
+        _progressBar = GetComponentInChildren<Slider>();
+        _animator = GetComponent<Animator>();
+        _animator.speed = 1f / FadeDuration;
+        _loadingScreenObject.SetActive(false);
     }
 
-    IEnumerator FadeIn()
+    public void LoadLevel(int sceneIndex)
     {
-        yield return new WaitForSeconds(0.3f);
-        Color newColor = fader.color;
-        while (true)
-        {
-            newColor.a -= (1 / fadeDuration) * Time.deltaTime;
-            fader.color = newColor;
+        StartCoroutine(SwitchToLevel(sceneIndex));
+    }
 
-            if (newColor.a <= 0f)
-            {
-                yield break;
-            }
+    IEnumerator SwitchToLevel(int sceneIndex)
+    {
+
+        _loaded = false;
+        _isBlack = false;
+
+        _animator.SetTrigger("FadeToBlack");
+        while (!_isBlack)
+        {
+            yield return new WaitForSeconds(0.1f);
+        }
+        _loadingScreenObject.SetActive(true);
+
+        StartCoroutine(LoadAsynchronusly(sceneIndex));
+        _animator.SetTrigger("FadeFromBlack");
+
+    }
+
+    private void OnFadeToBlackComplete()
+    {
+        _isBlack = true;
+    }
+
+    private void OnFadeFromBlackComplete()
+    {
+        _isBlack = false;
+    }
+
+    IEnumerator LoadAsynchronusly(int sceneIndex)
+    {
+        var loadingOperation = SceneManager.LoadSceneAsync(sceneIndex);
+        
+        while (!loadingOperation.isDone)
+        {
+            float progress = Mathf.Clamp01(loadingOperation.progress / 0.9f);
+            _progressBar.value = progress;
             yield return null;
         }
+        StartCoroutine(OnLoaded());
     }
 
-    IEnumerator FadeOut()
+    IEnumerator OnLoaded()
     {
-        Color newColor = fader.color;
-        while (true)
+        if (_isBlack)
         {
-            newColor.a += (1 / fadeDuration) * Time.deltaTime;
-            fader.color = newColor;
-
-            if (newColor.a >= 1f)
-            {
-                print("Loading complete");
-                yield break;
-            }
-            yield return null;
+            _loadingScreenObject.SetActive(false);
+            yield break;
         }
+        _animator.SetTrigger("FadeToBlack");
+        while (!_isBlack)
+        {
+            yield return new WaitForSeconds(0.1f);
+        }
+
+        _loadingScreenObject.SetActive(false);
+        _animator.SetTrigger("FadeFromBlack");
     }
 
-    IEnumerator ProgressBar()
-    {
-        yield return new WaitForSeconds(1 + fadeDuration);
 
-        while (true)
-        {
-            progressBar.value += Random.Range(0.1f, 0.2f);
-
-            yield return new WaitForSeconds(Random.Range(0.25f, 0.5f));
-
-            if (progressBar.value >= 1.0f)
-            {
-                loaded = true;
-                yield break;
-            }
-            yield return null; 
-        }
-    }
 }
