@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Assets.Scripts.Input
+namespace Assets.Scripts.InputScripts
 {
     public class Joystik : MonoBehaviour
     {
@@ -24,7 +24,7 @@ namespace Assets.Scripts.Input
         private Vector3 _cursorStartPosition;
         private CursorState _cursorState = CursorState.OnWaiting;
 
-        void Start()
+        private void Start()
         {
             _animator = Player.GetComponent<Animator>();
             _cursorStartPosition = Cursor.position;

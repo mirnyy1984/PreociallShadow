@@ -1,26 +1,32 @@
 ﻿using System.Collections.Generic;
 using Assets.Scripts.Shop;
+using Assets.Scripts.Stats;
 using UnityEngine;
 
 namespace Assets.Scripts.Managers
 {
-    class GlobalProgressManager : MonoBehaviour
+    internal class GlobalProgressManager : MonoBehaviour
     {
         public const int MaxLevel = 50; //Максимальный уровань в игре
         public const float LevelExpDelta = 0.2f; //насколько больше (в процентах) опыта нужно на каждом уровне.
         //опыт_для_следующего_уровня = опыт_для_этого_уровня + опыт_для_этого_уровня * LevelDelta; 
         public const int ExpToFirstLevel = 100;
 
+        public GameObject GameArtifactsAll; //Список всех артефактов игры
+        //TODO //public GameObject GameMagicAll; //Список всех магий игры
+        public GameObject GameCharactersAll; //Список всех персонажей игры
+        public GameObject GameCharactersOwned; //Список купленных персонажей игры
+        
         private int[] _levelsExp; //Количество опыта, необходимое для каждого уровня
 
         //Деньги 
-        private readonly Dictionary<CurrencyName, int> _currencyValues = new Dictionary<CurrencyName, int>();
+        private Dictionary<CurrencyName, int> _currencyValues;
     
         public static GlobalProgressManager Instance;
 
-        #region Singleton
         private void Awake()
         {
+            #region Singleton
             DontDestroyOnLoad(this);
             if (Instance == null)
             {
@@ -30,13 +36,9 @@ namespace Assets.Scripts.Managers
             {
                 DestroyImmediate(this);
             }
-        }
+            #endregion
 
-        #endregion
-
-        private void Start()
-        {
-            //if (firstEnterToGame)
+            //TODO //if (firstEnterToGame)
             {
                 CalculateLevelsExp();
                 ResetCurrencyValues();
@@ -45,19 +47,22 @@ namespace Assets.Scripts.Managers
 
         private void ResetCurrencyValues()
         {
-            _currencyValues.Add(CurrencyName.Ruby, 0);
-            _currencyValues.Add(CurrencyName.PreociallCrystal, 0);
-            _currencyValues.Add(CurrencyName.Gold, 0);
-            _currencyValues.Add(CurrencyName.Souls, 0);
-            _currencyValues.Add(CurrencyName.DarkCrystal, 0);
-            _currencyValues.Add(CurrencyName.LightCrystal, 0);
+            _currencyValues = new Dictionary<CurrencyName, int>
+            {
+                { CurrencyName.Ruby, 0 },
+                { CurrencyName.PreociallCrystal, 0 },
+                { CurrencyName.Gold, 0 },
+                { CurrencyName.Souls, 0 },
+                { CurrencyName.DarkCrystal, 0 },
+                { CurrencyName.LightCrystal, 0 },
 
-            _currencyValues.Add(CurrencyName.Expirience, 0);
-            _currencyValues[CurrencyName.Level] = 0;
+                { CurrencyName.Expirience, 0 },
+                { CurrencyName.Level, 0 }
+            };
         }
 
         private void CalculateLevelsExp()
-        {
+        { 
             _levelsExp = new int[MaxLevel];
             _levelsExp[0] = 0;
             _levelsExp[1] = ExpToFirstLevel;
@@ -84,6 +89,7 @@ namespace Assets.Scripts.Managers
             if (value - amount < 0)
             {
                 //TODO сообщение - недостаточно денег
+                print("недостаточно денег");
                 return false;
             }
             else
@@ -192,5 +198,41 @@ namespace Assets.Scripts.Managers
         {
             return _currencyValues[Name];
         }
+
+
+        public List<CharacterStats> GetOwnedCharacters()
+        {
+            List<CharacterStats> ownedCharacters = new List<CharacterStats>();
+            foreach (Transform child in GameCharactersOwned.transform)
+            {
+                ownedCharacters.Add(child.GetComponent<CharacterStats>());
+            }
+
+            return ownedCharacters;
+        }
+
+        public List<CharacterStats> GetAllCharacters()
+        {
+            List<CharacterStats> allCharacters = new List<CharacterStats>();
+            foreach (Transform child in GameCharactersAll.transform)
+            {
+                allCharacters.Add(child.GetComponent<CharacterStats>());
+            }
+
+            return allCharacters;
+        }
+
+        public List<Artifact> GetAllArtifacts()
+        {
+            List<Artifact> ownedArtifacts = new List<Artifact>();
+            foreach (Transform child in GameArtifactsAll.transform)
+            {
+                ownedArtifacts.Add(child.GetComponent<Artifact>());
+            }
+
+            return ownedArtifacts;
+        }
+
+
     }
 }

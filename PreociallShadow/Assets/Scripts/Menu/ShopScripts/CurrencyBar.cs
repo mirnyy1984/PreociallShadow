@@ -17,19 +17,12 @@ namespace Assets.Scripts.Shop
         public Text LevelText;
         public Slider ExpirienceSlider;
 
-        void Start()
+        private void Start()
         {
             UpdateCurrency();
         }
 
-        //TODO REMOVE TEST UPDATE
-
-        /*void Update()
-    {
-        UpdateCurrency();
-    }*/
-
-        void UpdateCurrency()
+        public void UpdateCurrency()
         {
             RubyText.text = GlobalProgressManager.Instance.GetCurrencyValue(CurrencyName.Ruby).ToString();
             PreoCryText.text = GlobalProgressManager.Instance.GetCurrencyValue(CurrencyName.PreociallCrystal).ToString();

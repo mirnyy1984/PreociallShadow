@@ -11,11 +11,11 @@ namespace Assets.Scripts.Stats
         public string Name = "Artifact";
         public Sprite Portrait; //Портрет в магазине
         public bool IsBuyable = true;  //продаётся ли в магазине
-        public float ShopCost = 0f; //Цена в магазине
+        public int ShopCost = 0; //Цена в магазине
         public CurrencyName Currency; //Валюта
         public bool Owned;  //Купил (получил) ли игрок этот артефакт 
         public Race Race; //раса
-        public int Level;
+        public int RequiredLevel; //Требуемый уровень
         public string Description; //Описание
 
         public float DamageMultiplierBonus; //Бонус к множителю урона. Так 0.1f = это +10% к урону

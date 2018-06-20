@@ -15,7 +15,7 @@ namespace Assets.Scripts.Managers
         private Animator _animator;
         private bool _isBlack;
 
-        void Awake()
+        private void Awake()
         {
             DontDestroyOnLoad(this);
 
@@ -42,7 +42,7 @@ namespace Assets.Scripts.Managers
             StartCoroutine(SwitchToLevel(sceneIndex));
         }
 
-        IEnumerator SwitchToLevel(int sceneIndex)
+        private IEnumerator SwitchToLevel(int sceneIndex)
         {
             _isBlack = false;
 
@@ -68,7 +68,7 @@ namespace Assets.Scripts.Managers
             _isBlack = false;
         }
 
-        IEnumerator LoadAsynchronusly(int sceneIndex)
+        private IEnumerator LoadAsynchronusly(int sceneIndex)
         {
             var loadingOperation = SceneManager.LoadSceneAsync(sceneIndex);
         
@@ -81,7 +81,7 @@ namespace Assets.Scripts.Managers
             StartCoroutine(OnLoaded());
         }
 
-        IEnumerator OnLoaded()
+        private IEnumerator OnLoaded()
         {
             if (_isBlack)
             {

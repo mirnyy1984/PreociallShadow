@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using Assets.Scripts.Static;
 using Assets.Scripts.Stats;
 using UnityEngine;
 using UnityEngine.UI;
@@ -10,12 +11,24 @@ namespace Assets.Scripts.Managers
         public Text TimerText;
         public int RoundLength = 90;
 
-        //public Player Player;
-        //public Player Enemy;
+        #region Ui top bar public references
+
+        public Slider PlayerHpBar;
+        public Image PlayerPortrait;
+        public Text PlayerNameText;
+        public Text PlayerSkinText;
+
+        public Slider EnemyHpBar;
+        public Image EnemyPortrait;
+        public Text EnemyNameText;
+        public Text EnemySkinText;
+
+        #endregion
 
         public CharacterStats PlayerStats;
         public CharacterStats EnemyStats;
         //TODO - получить MaxPlayerHp из PlayerStats
+
         public float MaxPlayerHp;
         public float MaxEnemyHp;
     
@@ -29,8 +42,6 @@ namespace Assets.Scripts.Managers
         private int _time;
         private GameState _gameState;
 
-        public Slider PlayerHpBar;
-        public Slider EnemyHpBar;
 
         public static BattleManager Instance;
 
@@ -50,11 +61,31 @@ namespace Assets.Scripts.Managers
     
         #endregion
 
+        public void Start()
+        {
+            StartBattle();
+        }
+
         public void StartBattle()
         {
+            SetupUiTopBar();
+
             _playerHealth = MaxPlayerHp;
             _enemyHealth = MaxEnemyHp;
             StartCoroutine(CountTime());
+        }
+
+        private void SetupUiTopBar()
+        {
+            PlayerStats = StaticCharacterStats.Player;
+            PlayerPortrait.sprite = PlayerStats.Portrait;
+            PlayerNameText.text = PlayerStats.Name;
+            PlayerSkinText.text = PlayerStats.SkinName;
+
+            EnemyStats = StaticCharacterStats.Enemy;
+            EnemyPortrait.sprite = EnemyStats.Portrait;
+            EnemyNameText.text = EnemyStats.Name;
+            EnemySkinText.text = EnemyStats.SkinName;
         }
 
         private enum GameState

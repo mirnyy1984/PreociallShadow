@@ -8,20 +8,15 @@ namespace Assets.Scripts.Stats
 {
 //Характеристики персонажа
 
-    public interface ICharacterStats
-    {
-        CharacterStats GetStats();
-    }
-
     [System.Serializable]
-    public class CharacterStats : MonoBehaviour, ICharacterStats
+    public class CharacterStats : MonoBehaviour
     {
         //Базовые
         public string Name = "Character";
         public string SkinName = "Default Skin"; //Скин (костюм)
         public Sprite Portrait; //Портрет в магазине
         public float Health = 1000f; //Базовое здоровье
-        public GameObject CharacterGameObject; //Объект с мешем и анимацией
+        public GameObject CharacterPrefab; //Объект с мешем и анимацией  ////////////////////СЮДА ЗАГОНЯТЬ МОДЕЛЬКУ ГЕРОЯ
         public Race Race; //Собственно, раса
 
         //Прокачиваемые
@@ -30,6 +25,7 @@ namespace Assets.Scripts.Stats
         public float HealthMultiplier = 1f;  //Множитель здоровья 
         public float AttackSpeed = 1f;  //Скорость атаки
         public float Defense = 0f; //Защита //TODO пока защита никак не работает в игре
+        //TODO защиты от всех видов стихий
         public List<PlayerBehavoir> PunchesBehavoirs; //Список изученых приёмов
         public int ArtifactCapacity = 1; //Сколько артефактов можно взять этому герою
         public List<Artifact> EquippedArtifacts; //Текущийе артефакты
@@ -44,27 +40,36 @@ namespace Assets.Scripts.Stats
         public float Expirience; //Текущий опыт
         public int Energy; //Энергия - тратится 1 за бой, восстанавливается за время или донат.
 
+        //TODO Поднять уровень
+        public void LevelUp()
+        {
+            Level++;
+        }
+
         //Получить статы с учётом артефактов и уровней. Только этим методом получаем статы в геймМенеджер и инвентарь
-        public CharacterStats GetStats()
+        public CharacterStats CountStatsToLevel()
         {
             CharacterStats newStats = this;
 
-            if (Level > 0)
+            newStats.Health *= HealthMultiplier;
+
+            for (int i = 0; i < Level; i++)
             {
-                newStats.Health *= HealthMultiplier;
+                //TODO припост хп и урона за уровень
             }
 
             if (EquippedArtifacts.Count > 0)
             {
-
                 foreach (var artifact in  EquippedArtifacts)
                 {
-                
+                    //TODO загонять статы с артефактов в эти
                 }
             }
 
             return newStats;
         }
+
+        //TODO CountEnemyStatsToLevel(int level)
 
     }
 }

@@ -151,7 +151,7 @@ namespace Assets.Scripts.Player
             StartCoroutine(Invincibility(time));
         }
 
-        IEnumerator Invincibility(float time)
+        private IEnumerator Invincibility(float time)
         {
             CanBeAttcked = false;
             yield return new WaitForSeconds(time);
