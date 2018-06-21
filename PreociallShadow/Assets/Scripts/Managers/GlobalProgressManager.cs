@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Assets.Scripts.Shop;
+using Assets.Scripts.Menu.ShopScripts;
 using Assets.Scripts.Stats;
 using UnityEngine;
 
@@ -133,6 +133,7 @@ namespace Assets.Scripts.Managers
             if (currentLevel != newLevel)
             {
                 //TODO you've leveled up message
+                print("Вы получили новый уровень!");
                 _currencyValues[CurrencyName.Level] = newLevel;
             }
         }
@@ -224,13 +225,14 @@ namespace Assets.Scripts.Managers
 
         public List<Artifact> GetAllArtifacts()
         {
-            List<Artifact> ownedArtifacts = new List<Artifact>();
+            List<Artifact> allArtifacts = new List<Artifact>();
+
             foreach (Transform child in GameArtifactsAll.transform)
             {
-                ownedArtifacts.Add(child.GetComponent<Artifact>());
+                allArtifacts.Add(child.GetComponent<Artifact>());
             }
 
-            return ownedArtifacts;
+            return allArtifacts;
         }
 
 

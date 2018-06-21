@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Assets.Scripts.Shop
+namespace Assets.Scripts.Menu.ShopScripts
 {
     public class CurrencyBar : MonoBehaviour
     {

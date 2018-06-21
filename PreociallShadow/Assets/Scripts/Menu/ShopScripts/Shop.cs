@@ -1,18 +1,18 @@
 ﻿using System.Collections.Generic;
 using Assets.Scripts.Managers;
-using Assets.Scripts.Shop;
+using Assets.Scripts.Menu.ShopScripts.ShopPages;
 using Assets.Scripts.Stats;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace Assets.Scripts.Menu.ShopScripts
 {
-    internal enum ShopPage
+    internal enum ShopPageName
     {
         Altar,
         Artifacts,
         Magic,
-        Currency
+        Donate
     }
 
     internal class Shop : MonoBehaviour
@@ -21,28 +21,21 @@ namespace Assets.Scripts.Menu.ShopScripts
 
         public ShopPageArtifacts ShopPageArtifacts;
         
-        private ShopPage _currentPage;
-
-        private List<CharacterStats> _gameAllCharacters;
-        private List<CharacterStats> _gameOwnedCharacters;
-        private List<Artifact> _gameAllArtifacts;
-
-        //TODO //private List<Magic> _gameMagic;
+        private ShopPageName _currentPageName;
 
         //TODO открыть страницу, на которой были последний раз
         private void Start()
         {
-            _gameAllArtifacts = GlobalProgressManager.Instance.GetAllArtifacts();
-            OpenShopPage(ShopPage.Artifacts);
+            OpenShopPage(ShopPageName.Artifacts);
         }
 
-        public void OpenShopPage(ShopPage page)
+        public void OpenShopPage(ShopPageName pageName)
         {
-            _currentPage = page;
+            _currentPageName = pageName;
 
-            switch (page)
+            switch (pageName)
             {
-                case (ShopPage.Artifacts):
+                case (ShopPageName.Artifacts):
                 {
                     DrawArtifactPage();
                     break;
@@ -57,34 +50,39 @@ namespace Assets.Scripts.Menu.ShopScripts
         }
 
 
-        
+        public void Buy(ShopItem item)
+        {
+            if (item is Artifact)
+            {
+                BuyArtifact(item as Artifact);
+            }
+        }
 
         public void BuyArtifact(Artifact artifact)
         {
-            if (!_gameAllArtifacts.Contains(artifact))
-                return;
-
             int playerLevel = GlobalProgressManager.Instance.GetCurrencyValue(CurrencyName.Level);
-            int playerMoney = GlobalProgressManager.Instance.GetCurrencyValue(artifact.Currency);
+            int playerMoney = GlobalProgressManager.Instance.GetCurrencyValue(artifact.CurrencyName);
 
             if (playerLevel >= artifact.RequiredLevel)
             {
-                if (playerMoney >= artifact.ShopCost)
+                if (playerMoney >= artifact.Cost)
                 {
-                    //TODO "вы действительно хотите купить этот предмет?
-                    GlobalProgressManager.Instance.Spend(artifact.Currency, artifact.ShopCost);
-                    artifact.Owned = true;
-                    DrawArtifactPage();
-                    print("куплен " + artifact.Name);
+                    //TODO "вы действительно хотите купить этот предмет? да/нет
+                    GlobalProgressManager.Instance.Spend(artifact.CurrencyName, artifact.Cost);
+                    CurrencyBar.UpdateCurrency();
+                    artifact.IsOwned = true;
+                    ShopPageArtifacts.DrawPage();
+                    print("Куплен артефакт " + artifact.Name);
                 }
                 else
                 {
-                    //TODO "у вас не хватает денег! Хотите задонатить?"
-                    print("у вас не хватает " + artifact.Currency);
+                    int needed = artifact.Cost - playerMoney;
+                    //TODO "У вас не хватает денег! Хотите задонатить?"
+                    print("У вас не хватает " + artifact.CurrencyName + "\n" +
+                          "Нужно ещё " + needed);
                 }
 
             }
-            CurrencyBar.UpdateCurrency();
         }
 
     }

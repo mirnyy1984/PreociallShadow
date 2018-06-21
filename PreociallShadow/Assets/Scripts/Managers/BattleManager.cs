@@ -114,7 +114,7 @@ namespace Assets.Scripts.Managers
         private void Draw()
         {
             _gameState = GameState.Pause;
-            print("Draw");
+            print("DrawSlot");
         }
 
         public void DamagePlayer(float damage)

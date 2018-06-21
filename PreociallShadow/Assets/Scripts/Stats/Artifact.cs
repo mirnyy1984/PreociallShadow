@@ -1,21 +1,25 @@
-﻿using Assets.Scripts.Shop;
+﻿using Assets.Scripts.Menu.ShopScripts;
 using UnityEngine;
 
 namespace Assets.Scripts.Stats
 {
     [System.Serializable]
-    public class Artifact : MonoBehaviour
+    public class Artifact : ShopItem
     {
         //Базовые
-        [SerializeField]
-        public string Name = "Artifact";
+        /*
+        //От ShopItem наследуются следующие поля
+        public string Name;
+        public int Cost;
+        public int RequiredLevelTxt;
+        public CurrencyName CurrencyName;
+        public bool IsBuyable;
+        public bool IsOwned;
+        */
+
+
         public Sprite Portrait; //Портрет в магазине
-        public bool IsBuyable = true;  //продаётся ли в магазине
-        public int ShopCost = 0; //Цена в магазине
-        public CurrencyName Currency; //Валюта
-        public bool Owned;  //Купил (получил) ли игрок этот артефакт 
         public Race Race; //раса
-        public int RequiredLevel; //Требуемый уровень
         public string Description; //Описание
 
         public float DamageMultiplierBonus; //Бонус к множителю урона. Так 0.1f = это +10% к урону
@@ -23,6 +27,7 @@ namespace Assets.Scripts.Stats
         public float DamageAddBonus; //Плюс урона этого артефакта. Прибавляется напрямую к
         public float HealthAddBonus; //Плюс здоровья этого артефакта
 
+        //TODO надо как-то сделать этот метод нормальным
         public virtual CharacterStats AddBonuses(CharacterStats stats)
         {
             stats.DamageMultiplier += DamageMultiplierBonus;
@@ -36,6 +41,37 @@ namespace Assets.Scripts.Stats
         public virtual void GetInGameEffect()
         {
             print(transform.name + " art is in game!");
+        }
+
+        public string GetEffectsString()
+        {
+            string effects = "";
+            if (DamageAddBonus != 0)
+            {
+                effects += "+" + DamageAddBonus + " к урону";
+            }
+            if (DamageMultiplierBonus != 0)
+            {
+                effects +=
+                    effects == "" ? "" : ", ";
+                effects += "+" + 100 * DamageMultiplierBonus + "%" + " к урону";
+            }
+            if (HealthAddBonus != 0)
+            {
+                effects +=
+                    effects == "" ? "" : ", ";
+                effects += "+" + HealthAddBonus + " к здоровью";
+            }
+            if (HealthMultiplierBonus != 0)
+            {
+                effects +=
+                    effects == "" ? "" : ", ";
+                effects += "+" + 100 * HealthMultiplierBonus + "%" + " к здоровью";
+            }
+
+            if (effects != "") effects += ".";
+
+            return effects;
         }
 
     }

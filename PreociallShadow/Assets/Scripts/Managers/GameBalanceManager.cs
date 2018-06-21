@@ -1,7 +1,7 @@
 ﻿
 using UnityEngine;
 
-namespace Assets.Prefabs.Manager
+namespace Assets.Scripts.Managers
 {
     public class GameBalanceManager : MonoBehaviour
     {

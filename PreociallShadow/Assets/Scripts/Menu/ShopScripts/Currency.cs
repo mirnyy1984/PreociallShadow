@@ -1,4 +1,4 @@
-﻿namespace Assets.Scripts.Shop
+﻿namespace Assets.Scripts.Menu.ShopScripts
 {
     public enum CurrencyName
     {

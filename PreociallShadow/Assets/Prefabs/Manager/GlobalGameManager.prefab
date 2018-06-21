@@ -25,7 +25,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 4294967295
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!1 &1155238781080532
 GameObject:
@@ -40,7 +40,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 4294967295
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!1 &1169558040631110
 GameObject:
@@ -56,7 +56,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 4294967295
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!1 &1231679120879574
 GameObject:
@@ -72,7 +72,23 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 4294967295
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1269410219647492
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4115341860895766}
+  - component: {fileID: 114362812006412076}
+  m_Layer: 0
+  m_Name: TestArtifact (2)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!1 &1368109670959274
 GameObject:
@@ -88,7 +104,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 4294967295
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!1 &1426200346405098
 GameObject:
@@ -103,7 +119,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 4294967295
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!1 &1460629979003624
 GameObject:
@@ -119,7 +135,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 4294967295
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!1 &1584396329951052
 GameObject:
@@ -135,7 +151,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 4294967295
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!1 &1617158850819646
 GameObject:
@@ -152,7 +168,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 4294967295
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!1 &1629213538565494
 GameObject:
@@ -168,7 +184,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 4294967295
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!1 &1760135366801056
 GameObject:
@@ -184,7 +200,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 4294967295
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!1 &1760680695498546
 GameObject:
@@ -196,11 +212,11 @@ GameObject:
   - component: {fileID: 4991903547601028}
   - component: {fileID: 114387359072413262}
   m_Layer: 0
-  m_Name: TestArtifact (2)
+  m_Name: GetMoney
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 4294967295
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!1 &1773541128658598
 GameObject:
@@ -215,7 +231,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 4294967295
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!1 &1816428601863510
 GameObject:
@@ -231,8 +247,21 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 4294967295
+  m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!4 &4115341860895766
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1269410219647492}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4331390227555896}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4118822967672118
 Transform:
   m_ObjectHideFlags: 1
@@ -271,6 +300,7 @@ Transform:
   m_Children:
   - {fileID: 4868407017245296}
   - {fileID: 4794668672662520}
+  - {fileID: 4115341860895766}
   - {fileID: 4991903547601028}
   m_Father: {fileID: 4791852822954340}
   m_RootOrder: 2
@@ -426,7 +456,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4331390227555896}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &114011972617562776
 MonoBehaviour:
@@ -439,14 +469,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c6207a29e9676f489b5098cb300887c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Name: Artifact1
-  Portrait: {fileID: 21300000, guid: 780a4bd2c2c04134f998f10621fa7bde, type: 3}
+  Name: "\u0422\u0435\u0441\u0442\u043E\u0432\u044B\u0439 \u0430\u0440\u0442\u0435\u0444\u0430\u043A\u0442
+    1"
+  Cost: 100
+  CurrencyName: 0
   IsBuyable: 1
-  ShopCost: 100
-  Currency: 0
-  Owned: 0
+  IsOwned: 0
+  Portrait: {fileID: 21300000, guid: 780a4bd2c2c04134f998f10621fa7bde, type: 3}
   Race: 0
-  Level: 0
+  RequiredLevel: 0
   Description: "\u044D\u0442\u043E \u0442\u0435\u0441\u0442\u043E\u0432\u044B\u0439
     \u0430\u0440\u0442\u0435\u0444\u0430\u043A\u0442"
   DamageMultiplierBonus: 2
@@ -538,6 +569,30 @@ MonoBehaviour:
   SkillPoints: 0
   Expirience: 0
   Energy: 0
+--- !u!114 &114362812006412076
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1269410219647492}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c6207a29e9676f489b5098cb300887c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: "\u0442\u0442\u0442\u0442\u0442"
+  Cost: 0
+  CurrencyName: 0
+  IsBuyable: 0
+  IsOwned: 0
+  Portrait: {fileID: 21300000, guid: 958f321c90bab47408759d3457c4e039, type: 3}
+  Race: 0
+  RequiredLevel: 0
+  Description: "\u0410\u0440\u0442\u0435\u0444\u0430\u043A\u0442 \u0437\u0430 \u043A\u0440\u0438\u0441\u0442\u0430\u043B\u043B\u044B"
+  DamageMultiplierBonus: 0
+  HealthMultiplierBonus: 1
+  DamageAddBonus: 1
+  HealthAddBonus: 0
 --- !u!114 &114387359072413262
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -549,19 +604,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c6207a29e9676f489b5098cb300887c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Name: Artifact2
-  Portrait: {fileID: 21300000, guid: 0379afb3884add6448e2f1b4cb295c3c, type: 3}
+  Name: "\u041F\u043E\u043B\u0443\u0447\u0438\u0442\u044C 1000 \u0440\u0443\u0431\u0438\u043D\u043E\u0432"
+  Cost: -1000
+  CurrencyName: 0
   IsBuyable: 1
-  ShopCost: 100
-  Currency: 0
-  Owned: 0
+  IsOwned: 0
+  Portrait: {fileID: 21300000, guid: 325ebec4a20aca046bcbfaa733c8902e, type: 3}
   Race: 0
-  Level: 0
-  Description: "\u044D\u0442\u043E \u0432\u0442\u043E\u0440\u043E\u0439 \u0442\u0435\u0441\u0442\u043E\u0432\u044B\u0439
-    \u0430\u0440\u0442\u0435\u0444\u0430\u043A\u0442"
+  RequiredLevel: 0
+  Description: "+\u0440\u0443\u0431\u0438\u043D"
   DamageMultiplierBonus: 0
-  HealthMultiplierBonus: 2
-  DamageAddBonus: 4
+  HealthMultiplierBonus: 0
+  DamageAddBonus: 0
   HealthAddBonus: 0
 --- !u!114 &114404905924494584
 MonoBehaviour:
@@ -607,14 +661,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c6207a29e9676f489b5098cb300887c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Name: Artifact2
-  Portrait: {fileID: 21300000, guid: 0379afb3884add6448e2f1b4cb295c3c, type: 3}
+  Name: "\u0422\u0435\u0441\u0442 2"
+  Cost: 0
+  CurrencyName: 0
   IsBuyable: 1
-  ShopCost: 300
-  Currency: 2
-  Owned: 0
+  IsOwned: 0
+  Portrait: {fileID: 21300000, guid: 0379afb3884add6448e2f1b4cb295c3c, type: 3}
   Race: 0
-  Level: 0
+  RequiredLevel: 0
   Description: "\u044D\u0442\u043E \u0432\u0442\u043E\u0440\u043E\u0439 \u0442\u0435\u0441\u0442\u043E\u0432\u044B\u0439
     \u0430\u0440\u0442\u0435\u0444\u0430\u043A\u0442"
   DamageMultiplierBonus: 0
