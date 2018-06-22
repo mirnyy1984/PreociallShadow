@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using Assets.Scripts.Managers;
 using Assets.Scripts.Menu.ShopScripts.ShopPages.Slots;
-using Assets.Scripts.Menu.ShopScripts.ShopPages.Slots.Artifacts;
 using UnityEngine;
 
 namespace Assets.Scripts.Menu.ShopScripts.ShopPages
@@ -30,7 +29,6 @@ namespace Assets.Scripts.Menu.ShopScripts.ShopPages
             {
                 var slotGo = Instantiate(SlotParentPrefab, ShopContent);
                 var slotScript = slotGo.GetComponent<SlotParent>();
-                slotScript.SetShop(Shop);
                 slotScript.DrawSlot(item);
 
             }

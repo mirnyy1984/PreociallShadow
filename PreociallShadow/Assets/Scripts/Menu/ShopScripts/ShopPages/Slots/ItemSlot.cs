@@ -1,5 +1,4 @@
-﻿using Assets.Scripts.Menu.ShopScripts.ShopPages.Slots.Artifacts;
-using Assets.Scripts.Stats;
+﻿using Assets.Scripts.Stats;
 using UnityEngine;
 using UnityEngine.UI;
 

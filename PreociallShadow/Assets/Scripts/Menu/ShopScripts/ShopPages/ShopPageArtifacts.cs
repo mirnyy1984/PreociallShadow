@@ -89,14 +89,14 @@ namespace Assets.Scripts.Menu.ShopScripts.ShopPages
                 case (2):
                 {
                     sortedArtifacts = sortedArtifacts.Where(x => x.Race == Race.Anthrophomorph).ToList();
-                        break;
+                    break;
                 }
                 //Инопланетяне
                 case (3):
                 {
                     sortedArtifacts = sortedArtifacts.Where(x => x.Race == Race.BadAlien 
                                                                  || x.Race == Race.GoodAlien).ToList();
-                        break;
+                    break;
                 }
             }
 

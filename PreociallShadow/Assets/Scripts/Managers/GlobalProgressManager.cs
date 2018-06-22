@@ -166,6 +166,7 @@ namespace Assets.Scripts.Managers
             GetLevelProgress();
         }
 
+        
         //Возвращает прогресс на текущем уровне в диапазоне [0.0, 1.0] 
         public float GetLevelProgress()
         {

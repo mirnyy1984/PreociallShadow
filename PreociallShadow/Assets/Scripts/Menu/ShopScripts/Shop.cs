@@ -1,9 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Assets.Scripts.Managers;
+using Assets.Scripts.Managers.PopUpMessageManager;
 using Assets.Scripts.Menu.ShopScripts.ShopPages;
 using Assets.Scripts.Stats;
+using UnityEditor.Experimental.Build.AssetBundle;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
+using UnityEngine.XR.WSA;
 
 namespace Assets.Scripts.Menu.ShopScripts
 {
@@ -15,18 +20,31 @@ namespace Assets.Scripts.Menu.ShopScripts
         Donate
     }
 
+
     internal class Shop : MonoBehaviour
     {
+        public static Shop Instance;
         public CurrencyBar CurrencyBar;
-
         public ShopPageArtifacts ShopPageArtifacts;
-        
+        private GlobalProgressManager _globalProgressManager;
+        private ConfirmDialogManager _dialogManager;
+        private ShopItem _lastSelectedItem;
         private ShopPageName _currentPageName;
 
         //TODO открыть страницу, на которой были последний раз
         private void Start()
         {
+            _globalProgressManager = GlobalProgressManager.Instance;
+            _dialogManager = ConfirmDialogManager.Instance;
             OpenShopPage(ShopPageName.Artifacts);
+        }
+
+        void Awake()
+        {
+            if (Instance == null)
+                Instance = this;
+            else if (Instance != this)
+                Destroy(this);
         }
 
         public void OpenShopPage(ShopPageName pageName)
@@ -52,6 +70,7 @@ namespace Assets.Scripts.Menu.ShopScripts
 
         public void Buy(ShopItem item)
         {
+            _lastSelectedItem = item;
             if (item is Artifact)
             {
                 BuyArtifact(item as Artifact);
@@ -60,19 +79,16 @@ namespace Assets.Scripts.Menu.ShopScripts
 
         public void BuyArtifact(Artifact artifact)
         {
-            int playerLevel = GlobalProgressManager.Instance.GetCurrencyValue(CurrencyName.Level);
-            int playerMoney = GlobalProgressManager.Instance.GetCurrencyValue(artifact.CurrencyName);
+            int playerLevel = _globalProgressManager.GetCurrencyValue(CurrencyName.Level);
+            int playerMoney = _globalProgressManager.GetCurrencyValue(artifact.CurrencyName);
 
             if (playerLevel >= artifact.RequiredLevel)
             {
                 if (playerMoney >= artifact.Cost)
                 {
-                    //TODO "вы действительно хотите купить этот предмет? да/нет
-                    GlobalProgressManager.Instance.Spend(artifact.CurrencyName, artifact.Cost);
-                    CurrencyBar.UpdateCurrency();
-                    artifact.IsOwned = true;
-                    ShopPageArtifacts.DrawPage();
-                    print("Куплен артефакт " + artifact.Name);
+                    string messageText = "Купить " + artifact.Name + " за " + artifact.Cost + " " +
+                                         artifact.CurrencyName + "?";
+                    _dialogManager.ConfirmDialogYN(ConfirmPurchaseLastSelectedItem, messageText); //Показать окно подтверждения
                 }
                 else
                 {
@@ -84,6 +100,13 @@ namespace Assets.Scripts.Menu.ShopScripts
 
             }
         }
-
+        private void ConfirmPurchaseLastSelectedItem()
+        {
+            _globalProgressManager.Spend(_lastSelectedItem.CurrencyName, _lastSelectedItem.Cost);
+            CurrencyBar.UpdateCurrency();
+            _lastSelectedItem.IsOwned = true;
+            ShopPageArtifacts.DrawPage();
+            print("Куплен " + _lastSelectedItem.Name);
+        }
     }
 }

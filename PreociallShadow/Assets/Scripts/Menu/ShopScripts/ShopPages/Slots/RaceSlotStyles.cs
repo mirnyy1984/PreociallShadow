@@ -9,5 +9,6 @@ namespace Assets.Scripts.Menu.ShopScripts.ShopPages.Slots
     {
         //TODO
         //public static Sprite GetRaceSprite(Race race){}
+        
     }
 }

@@ -1,10 +1,7 @@
-﻿using System;
-using Assets.Scripts.Managers;
-using UnityEditor.Graphs;
+﻿using Assets.Scripts.Managers;
 using UnityEngine;
-using UnityEngine.UI;
 
-namespace Assets.Scripts.Menu.ShopScripts.ShopPages.Slots.Artifacts
+namespace Assets.Scripts.Menu.ShopScripts.ShopPages.Slots
 {
     //Слот для магии или артефакта
     internal class SlotParent : MonoBehaviour
@@ -14,9 +11,7 @@ namespace Assets.Scripts.Menu.ShopScripts.ShopPages.Slots.Artifacts
         public GameObject TooHighLevelSlotPrefab;
         public GameObject BoughtSlotPrefab;
         public GameObject InventorySlotPrefab;
-
-        public Shop Shop;
-
+        
         [SerializeField] private ShopItem _item;
 
         public void DrawSlot(ShopItem item)
@@ -58,19 +53,12 @@ namespace Assets.Scripts.Menu.ShopScripts.ShopPages.Slots.Artifacts
             }
 
         }
-
-        //Метод из интерфейса. 
-        public void SetShop(Shop shop)
-        {
-            //Использую this явно только для читаемости - присваевается значение переменной этого экземпляра
-            this.Shop = shop;
-        }
-
+        
         public void Buy()
         {
             //Shop = GameObject.Find("Shop").GetComponent<Shop>();
             if (!_item.IsOwned)
-                Shop.Buy(_item);
+                Shop.Instance.Buy(_item);
             else
             {
                 //TODO предложить выбрать героя для экипирования его когда будут готовы герои в инвентаре
