@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-namespace Assets.Scripts.Player
+﻿namespace Assets.Scripts.Player
 {
     public enum PunchName
     {

@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Stats;
+using Assets.Scripts.Stats.Characters;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,7 +10,7 @@ namespace Assets.Scripts.Menu
         public FighterSelectScreen SelectScreen;
 
         [SerializeField]
-        private CharacterStats _stats;
+        private CharacterBase _stats;
 
         private Image _portrait;
         //private string _name;
@@ -19,7 +20,7 @@ namespace Assets.Scripts.Menu
             _portrait = GetComponent<Image>();
         }
 
-        public void SetCharacterStats(CharacterStats stats)
+        public void SetCharacterStats(CharacterBase stats)
         {
             _stats = stats;
             _portrait.sprite = stats.Portrait;

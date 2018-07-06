@@ -11,3 +11,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/StartScene.unity
     guid: 72a7a2569c9549c4dbfc9be1cf2df704
+  - enabled: 1
+    path: Assets/Shop.unity
+    guid: 625dd5d9e62d97e4c9553235808378f6
+  - enabled: 1
+    path: Assets/FighterSelectScreen.unity
+    guid: 7d2b22af6491ee04a9c3588d154295cf

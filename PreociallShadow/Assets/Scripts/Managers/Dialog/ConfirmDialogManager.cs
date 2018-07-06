@@ -1,15 +1,15 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Assets.Scripts.Managers.PopUpMessageManager
+namespace Assets.Scripts.Managers.Dialog
 {
-    class ConfirmDialogManager : MonoBehaviour
+    internal class ConfirmDialogManager : MonoBehaviour
     {
         #region Singleton
 
         public static ConfirmDialogManager Instance;
 
-        void Awake()
+        private void Awake()
         {
             if (Instance == null)
             {

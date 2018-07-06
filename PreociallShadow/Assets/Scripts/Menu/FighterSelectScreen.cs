@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Assets.Scripts.Managers;
 using Assets.Scripts.Static;
 using Assets.Scripts.Stats;
+using Assets.Scripts.Stats.Characters;
 using UnityEngine;
 
 
@@ -18,13 +19,13 @@ namespace Assets.Scripts.Menu
         public GameObject FighterSlotPrefab;
 
         private GameObject _selectedFighterPreviev;
-        private CharacterStats _selectedFighterStats;
+        private CharacterBase _selectedFighter;
 
-        private List<CharacterStats> _avalableCharacters;
+        private List<CharacterBase> _avalableCharacters;
 
         private void Start()
         {
-            _avalableCharacters = GlobalProgressManager.Instance.GetOwnedCharacters();
+            //TODO _avalableCharacters = GlobalProgressManager.Instance.GetOwnedCharacters();
 
             foreach (var characterStats in _avalableCharacters)
             {
@@ -38,9 +39,9 @@ namespace Assets.Scripts.Menu
             StartCoroutine(Rotate());
         }
 
-        public void SelectFighter(CharacterStats stats)
+        public void SelectFighter(CharacterBase stats)
         {
-            _selectedFighterStats = stats;
+            _selectedFighter = stats;
             Destroy(_selectedFighterPreviev);
             _selectedFighterPreviev = Instantiate(stats.CharacterPrefab, transform.position, transform.rotation, transform);
         }
@@ -57,11 +58,11 @@ namespace Assets.Scripts.Menu
         //Вызывает кнопка "в бой"
         public void OnStartBattleClick()
         {
-            Debug.Log("Starting battle with " + _selectedFighterStats.GetComponent<CharacterStats>().Name);
-            StaticCharacterStats.Player = _selectedFighterStats;
+            //TODO //Debug.Log("Starting battle with " + _selectedFighter.GetComponent<Character>().Name);
+            StaticCharacters.Player = _selectedFighter;
             //TODO выбор врага, соответственно уровню игрока и сложности.
-            StaticCharacterStats.Enemy = GlobalProgressManager.Instance.GetAllCharacters()[0];
-            LoadingScreen.Instance.LoadLevel(1);
+            StaticCharacters.Enemy = GlobalProgressManager.Instance.GetAllCharacters()[0];
+            LoadingScreenManager.Instance.LoadLevel(1);
         }
 
     }

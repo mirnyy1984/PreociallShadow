@@ -3,19 +3,20 @@ using UnityEngine.UI;
 
 namespace Assets.Scripts.Managers.PopUpMessage
 {
-    class PopUpMessageManager : MonoBehaviour
+    internal class PopUpMessageManager : MonoBehaviour
     {
         public float DisplayTime = 3f; //Время на экране
 
         public Canvas MessagesCanvas;
         public GameObject MessageBoxPrefab;
         public Text MessageBoxTxt;
+        public Animator Anim;
 
         #region Singleton
 
         public static PopUpMessageManager Instance;
 
-        void Awake()
+        private void Awake()
         {
             if (Instance == null)
             {
@@ -23,33 +24,23 @@ namespace Assets.Scripts.Managers.PopUpMessage
             }
             else if (Instance != this)
             {
-                Destroy(this);
+                Destroy(gameObject);
             }
         }
 
         #endregion
 
-        void Start()
+        private void Start()
         {
-            //TODO
-            ShowMessage("Уведомление");
+            //ShowMessage("Уведомление");
+            PopUpMessage.DisplayTime = DisplayTime;
         }
-
-        private GameObject _dialogGo;
-        private Animator _dialogAnim;
         //Уведомление
         public void ShowMessage(string message)
         {
+            //MessagesCanvas.gameObject.SetActive(true);
             MessageBoxTxt.text = message;
-            _dialogGo = Instantiate(MessageBoxPrefab, MessagesCanvas.transform);
-            _dialogAnim = _dialogGo.GetComponent<Animator>();
-            Invoke("HideMessage", DisplayTime);
-        }
-
-        private void HideMessage()
-        {
-            _dialogAnim.SetTrigger("Hide");
-            Destroy(_dialogGo, 2f);
+            Instantiate(MessageBoxPrefab, MessagesCanvas.transform);
         }
     }
 }

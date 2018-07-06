@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using Assets.Scripts.Static;
 using Assets.Scripts.Stats;
+using Assets.Scripts.Stats.Characters;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -25,9 +26,9 @@ namespace Assets.Scripts.Managers
 
         #endregion
 
-        public CharacterStats PlayerStats;
-        public CharacterStats EnemyStats;
-        //TODO - получить MaxPlayerHp из PlayerStats
+        public CharacterBase PlayerCharacter;
+        public CharacterBase EnemyCharacter;
+        //TODO - получить MaxPlayerHp из PlayerCharacter
 
         public float MaxPlayerHp;
         public float MaxEnemyHp;
@@ -77,15 +78,15 @@ namespace Assets.Scripts.Managers
 
         private void SetupUiTopBar()
         {
-            PlayerStats = StaticCharacterStats.Player;
-            PlayerPortrait.sprite = PlayerStats.Portrait;
-            PlayerNameText.text = PlayerStats.Name;
-            PlayerSkinText.text = PlayerStats.SkinName;
+            PlayerCharacter = StaticCharacters.Player;
+            PlayerPortrait.sprite = PlayerCharacter.Portrait;
+            PlayerNameText.text = PlayerCharacter.Name;
+            PlayerSkinText.text = PlayerCharacter.SkinName;
 
-            EnemyStats = StaticCharacterStats.Enemy;
-            EnemyPortrait.sprite = EnemyStats.Portrait;
-            EnemyNameText.text = EnemyStats.Name;
-            EnemySkinText.text = EnemyStats.SkinName;
+            EnemyCharacter = StaticCharacters.Enemy;
+            EnemyPortrait.sprite = EnemyCharacter.Portrait;
+            EnemyNameText.text = EnemyCharacter.Name;
+            EnemySkinText.text = EnemyCharacter.SkinName;
         }
 
         private enum GameState

@@ -4,34 +4,23 @@ using System.Linq;
 using Assets.Scripts.Managers;
 using Assets.Scripts.Stats;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace Assets.Scripts.Menu.ShopScripts.ShopPages
 {
-    class ShopPageArtifacts : ShopPage
+    internal class ShopPageArtifacts : ShopPage
     {
-        public Dropdown RaceFilterDropdown;
-        public Dropdown SortOrderDropdown;
-        public Toggle HideOwnedToggle;
-        private List<Artifact> _artifacts = new List<Artifact>();
+        [SerializeField] private List<Artifact> _artifacts = new List<Artifact>();
 
         private void Start()
         {
             _artifacts = GlobalProgressManager.Instance.GetAllArtifacts();
-            //todo remove drawpage когда будут готовы другие страницы
-            DrawPage();
         }
 
         //Вывзывается верхней панелью фильтров в магазине
         public override List<ShopItem> SortItems()
         {
             List<Artifact> sortedArtifacts = new List<Artifact>(_artifacts);
-
-            if (HideOwnedToggle.isOn)
-            {
-                sortedArtifacts = sortedArtifacts.Where(x => !x.IsOwned).ToList();
-            }
-
+            
             //Порядок сортировки
             switch (SortOrderDropdown.value)
             {
@@ -100,11 +89,6 @@ namespace Assets.Scripts.Menu.ShopScripts.ShopPages
                 }
             }
 
-            //Развернём список по кнопке справа
-            if (SortOrder)
-            {
-                sortedArtifacts.Reverse();
-            }
             List<ShopItem> sortedItems = sortedArtifacts.Cast<ShopItem>().ToList();
             return sortedItems;
         }

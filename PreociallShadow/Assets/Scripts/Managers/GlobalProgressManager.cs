@@ -1,32 +1,27 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using Assets.Scripts.Managers.PopUpMessage;
 using Assets.Scripts.Menu.ShopScripts;
 using Assets.Scripts.Stats;
+using Assets.Scripts.Stats.Characters;
 using UnityEngine;
 
 namespace Assets.Scripts.Managers
 {
     internal class GlobalProgressManager : MonoBehaviour
     {
-        public const int MaxLevel = 50; //Максимальный уровань в игре
-        public const float LevelExpDelta = 0.2f; //насколько больше (в процентах) опыта нужно на каждом уровне.
-        //опыт_для_следующего_уровня = опыт_для_этого_уровня + опыт_для_этого_уровня * LevelDelta; 
-        public const int ExpToFirstLevel = 100;
-
-        public GameObject GameArtifactsAll; //Список всех артефактов игры
-        //TODO //public GameObject GameMagicAll; //Список всех магий игры
-        public GameObject GameCharactersAll; //Список всех персонажей игры
-        public GameObject GameCharactersOwned; //Список купленных персонажей игры
-        
-        private int[] _levelsExp; //Количество опыта, необходимое для каждого уровня
-
         //Деньги 
         private Dictionary<CurrencyName, int> _currencyValues;
-    
+
         public static GlobalProgressManager Instance;
 
+        private static List<CharacterBase> _allCharacters = new List<CharacterBase>();
+        private static List<Artifact> _allArtifacts = new List<Artifact>();
+        private static List<Magic> _allMagics = new List<Magic>();
+
+        #region Singleton
         private void Awake()
         {
-            #region Singleton
             DontDestroyOnLoad(this);
             if (Instance == null)
             {
@@ -34,13 +29,15 @@ namespace Assets.Scripts.Managers
             }
             else if (Instance != this)
             {
-                DestroyImmediate(this);
+                DestroyImmediate(gameObject);
             }
-            #endregion
+        }
+        #endregion
 
+        private void Start()
+        {
             //TODO //if (firstEnterToGame)
             {
-                CalculateLevelsExp();
                 ResetCurrencyValues();
             }
         }
@@ -61,25 +58,15 @@ namespace Assets.Scripts.Managers
             };
         }
 
-        private void CalculateLevelsExp()
-        { 
-            _levelsExp = new int[MaxLevel];
-            _levelsExp[0] = 0;
-            _levelsExp[1] = ExpToFirstLevel;
-
-            for (int i = 2; i < MaxLevel; i++)
-            {
-                _levelsExp[i] = Mathf.RoundToInt(_levelsExp[i - 1] + _levelsExp[i - 1] * LevelExpDelta);
-            }
-
-            //print("Распредениелие опыта по уровням:");
-            //for (int i = 0; i < MaxLevel; i++) print(_levelsExp[i]);
-        }
+        
     
         public bool Spend(CurrencyName currencyName, int amount)
         {
-            if (currencyName == CurrencyName.Expirience
-                || currencyName == CurrencyName.Level
+            if (currencyName == CurrencyName.Expirience)
+            {
+                AddExp(amount);
+            }
+            if (currencyName == CurrencyName.Level
                 || currencyName == CurrencyName.SkillPoints)
             {
                 return false;
@@ -100,142 +87,65 @@ namespace Assets.Scripts.Managers
             }
         }
 
-        public void Add(CurrencyName currencyName, int amount)
+        public void AddCurrency(CurrencyName currencyName, int amount)
         {
-            if (currencyName == CurrencyName.Expirience)
-            {
-                AddExp(amount);
-                return;
-            }
             Spend(currencyName, -amount);
-        }
-
-        public void AddExp(int amount)
-        {
-            int currentLevel = GetCurrentLevel();
-
-            if (currentLevel >= MaxLevel)
-            {
-                _currencyValues[CurrencyName.Expirience] = _levelsExp[MaxLevel - 1];
-                return;
-            }
-
-            if (_currencyValues[CurrencyName.Expirience] + amount >= _levelsExp[MaxLevel - 1])
-            {
-                _currencyValues[CurrencyName.Expirience] = _levelsExp[MaxLevel - 1];
-                return;
-            }
-
-            _currencyValues[CurrencyName.Expirience] += amount;
-            int newLevel = GetCurrentLevel();
-
-
-            if (currentLevel != newLevel)
-            {
-                //TODO you've leveled up message
-                print("Вы получили новый уровень!");
-                _currencyValues[CurrencyName.Level] = newLevel;
-            }
-        }
-
-        public int GetCurrentLevel()
-        {
-            int currentExp = _currencyValues[CurrencyName.Expirience];
-
-            if (currentExp >= _levelsExp[MaxLevel - 1])
-            {
-                _currencyValues[CurrencyName.Level] = MaxLevel;
-                return MaxLevel;
-            }
-
-            for (int i = 0; i < MaxLevel - 1; i++)
-            {
-                if (currentExp >= _levelsExp[i] &&
-                    currentExp < _levelsExp[i+1])
-                {
-                    _currencyValues[CurrencyName.Level] = i;
-                    return i;
-                }
-            }
-            return 0;
-        }
-
-        public void _TEST_ADD_30000_EXP()
-        {
-            AddExp(30000);
-            GetLevelProgress();
+            var currencyDisplay = GameObject.FindGameObjectWithTag("CurrencyDisplay");
+            currencyDisplay.GetComponent<CurrencyDisplay>().UpdateCurrency();
         }
 
         
-        //Возвращает прогресс на текущем уровне в диапазоне [0.0, 1.0] 
-        public float GetLevelProgress()
+        public void AddExp(int amount)
         {
             int currentExp = _currencyValues[CurrencyName.Expirience];
-            int currentLvl = GetCurrentLevel();
+            int currentLevel = _currencyValues[CurrencyName.Level];
 
-            if (currentLvl == MaxLevel)
+            int newLevelExp = currentExp + amount;
+            int newLevel = GameBalanceManager.GetLevelOnExp(newLevelExp);
+            newLevel = Mathf.Clamp(newLevel, 0, GameBalanceManager.MaxLevel);
+
+            int maxLevelExp = GameBalanceManager.GetExpForMaxLevel();
+
+            _currencyValues[CurrencyName.Expirience] = Mathf.Clamp(newLevelExp, 0, maxLevelExp);
+            
+            if(currentLevel != newLevel)
             {
-                return 1f;
+                print("You've got ot level " + newLevel);
+                PopUpMessageManager.Instance.ShowMessage("Вы достигли уровня " + newLevel);
+                _currencyValues[CurrencyName.Level] = newLevel;
             }
-
-            int expNeeded = _levelsExp[currentLvl + 1]; //Сколько всего опыта нужно до следующего
-
-            int expToThisLevel = _levelsExp[currentLvl]; //Сколько опыта нужно для этого уровня
-            int expDelta = expNeeded - expToThisLevel;  //Сколько опыта между следующим и нашим уровнем
-            int expRemaining = expNeeded - currentExp; //Сколько опыта осталось для след уровня
-            int progressOnCurrLevel = expDelta - expRemaining;
-            /*
-        Debug.Log("currentLvl " + currentLvl);
-        Debug.Log("currentExp " + currentExp);
-        Debug.Log("exp to next " + _levelsExp[currentLvl + 1]);
-        Debug.Log("exp to this " + _levelsExp[currentLvl]);
-        Debug.Log("currentExp " + currentExp);
-        Debug.Log("progressOnCurrLevel " + progressOnCurrLevel);
-        Debug.Log("LevelProgress " + (float)progressOnCurrLevel / (float)expDelta);
-        */
-            return (float)progressOnCurrLevel / (float)expDelta;
+        }
+        
+        public int GetCurrencyValue(CurrencyName currencyName)
+        {
+            return _currencyValues[currencyName];
         }
 
-        public int GetCurrencyValue(CurrencyName Name)
+        public List<CharacterBase> GetAllCharacters()
         {
-            return _currencyValues[Name];
-        }
-
-
-        public List<CharacterStats> GetOwnedCharacters()
-        {
-            List<CharacterStats> ownedCharacters = new List<CharacterStats>();
-            foreach (Transform child in GameCharactersOwned.transform)
+            if (_allCharacters.Count == 0)
             {
-                ownedCharacters.Add(child.GetComponent<CharacterStats>());
+                _allCharacters = Resources.LoadAll<CharacterBase>("Characters").ToList();
             }
-
-            return ownedCharacters;
-        }
-
-        public List<CharacterStats> GetAllCharacters()
-        {
-            List<CharacterStats> allCharacters = new List<CharacterStats>();
-            foreach (Transform child in GameCharactersAll.transform)
-            {
-                allCharacters.Add(child.GetComponent<CharacterStats>());
-            }
-
-            return allCharacters;
+            return _allCharacters;
         }
 
         public List<Artifact> GetAllArtifacts()
         {
-            List<Artifact> allArtifacts = new List<Artifact>();
-
-            foreach (Transform child in GameArtifactsAll.transform)
+            if (_allArtifacts.Count == 0)
             {
-                allArtifacts.Add(child.GetComponent<Artifact>());
+                _allArtifacts = Resources.LoadAll<Artifact>("Artifacts").ToList();
             }
-
-            return allArtifacts;
+            return _allArtifacts;
         }
 
-
+        public List<Magic> GetAllMagic()
+        {
+            if (_allMagics.Count == 0)
+            {
+                _allMagics = Resources.LoadAll<Magic>("Magics").ToList();
+            }
+            return _allMagics;
+        }
     }
 }

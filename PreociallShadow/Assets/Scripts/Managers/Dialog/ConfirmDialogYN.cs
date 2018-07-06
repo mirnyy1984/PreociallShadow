@@ -2,9 +2,9 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Assets.Scripts.Managers.PopUpMessageManager
+namespace Assets.Scripts.Managers.Dialog
 {
-    class ConfirmDialogYN : MonoBehaviour
+    internal class ConfirmDialogYN : MonoBehaviour
     {
         public Text Message;
         public Action YesAction;
