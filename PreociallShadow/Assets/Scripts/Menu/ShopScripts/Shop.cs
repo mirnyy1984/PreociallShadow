@@ -1,21 +1,15 @@
-﻿using Assets.Scripts.Managers;
+﻿using System;
+using System.Collections.Generic;
+using Assets.Scripts.Managers;
 using Assets.Scripts.Managers.Dialog;
 using Assets.Scripts.Menu.ShopScripts.ShopPages;
 using Assets.Scripts.Stats;
+using Assets.Scripts.Stats.Characters;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace Assets.Scripts.Menu.ShopScripts
 {
-    internal enum ShopPageName
-    {
-        Altar,
-        Artifacts,
-        Magic,
-        Donate
-    }
-
-
     internal class Shop : MonoBehaviour
     {
         public static Shop Instance;
@@ -23,8 +17,9 @@ namespace Assets.Scripts.Menu.ShopScripts
         public ShopPageArtifacts ShopPageArtifacts;
         public ShopPageCharacters ShopPageCharacters;
         public ShopPageMagic ShopPageMagic;
-        //--
-        //--
+        //TODO ShopPageDonate
+
+        private ScrollRect _scrollView;
 
         public Button AltarButton;
         public Button ArtifactsButton;
@@ -34,15 +29,24 @@ namespace Assets.Scripts.Menu.ShopScripts
         private GlobalProgressManager _globalProgressManager;
         private ConfirmDialogManager _dialogManager;
         private ShopItem _lastSelectedItem;
-        private ShopPageName _currentPageName;
-        private ShopPage _currentPage;
+       [SerializeField] private ShopPage _currentPage;
+
+        private List<ShopPage> _shopPages;
+        private List<Button> _shopButtons;
 
         //TODO открыть страницу, на которой были последний раз
         private void Start()
         {
+            _shopPages = new List<ShopPage>(
+                new ShopPage[] {ShopPageCharacters, ShopPageArtifacts, ShopPageMagic });
+                                                                            
+            _shopButtons = new List<Button>(
+                new Button[] {AltarButton, ArtifactsButton, MagicButton, DonateButton});
+
+            _scrollView = GetComponentInChildren<ScrollRect>();
             _globalProgressManager = GlobalProgressManager.Instance;
             _dialogManager = ConfirmDialogManager.Instance;
-            OpenShopPage(ShopPageName.Altar);
+            OpenShopPage(0);
         }
 
         #region Singleton
@@ -60,63 +64,39 @@ namespace Assets.Scripts.Menu.ShopScripts
         //Это для кнопок
         public void OpenShopPage(int page)
         {
-            ShopPageName spn = (ShopPageName)page;
-            OpenShopPage(spn);
-        }
+            _currentPage = _shopPages[page];
+            _scrollView.content = _currentPage.ShopContent;
 
-        //Эту функцию кнопки вызвать не могут потому что не понимают enum-ы
-        public void OpenShopPage(ShopPageName pageName)
-        {
-            _currentPageName = pageName;
+            int pagesN = Enum.GetValues(typeof(ShopPageName)).Length;
 
-            switch (pageName)
+            for (int i = 0; i < pagesN; i++)
             {
-                case (ShopPageName.Altar):
+                //TODO за неимением третьей чётвёртой страницы
+                if (i == 3 || i == 2) continue;
+
+                if (i == page)
                 {
-                        DrawAltarPage();
-                    break;
+                    _shopPages[i].EnableContent();
+                    _shopButtons[i].interactable = false;
                 }
-                case (ShopPageName.Artifacts):
+                else
                 {
-                    DrawArtifactPage();
-                    break;
-                }
-                case (ShopPageName.Magic):
-                {
-                    //DrawMagicPage();
-                    break;
-                }
-                case (ShopPageName.Donate):
-                {
-                    //DrawDonatePage();
-                    break;
+                    _shopPages[i].DisableContent();
+                    _shopButtons[i].interactable = true;
                 }
             }
 
+            if (page == (int) ShopPageName.Altar)
+            {
+                _scrollView.horizontal = true;
+                _scrollView.vertical = false;
+            }
+            else
+            {
+                _scrollView.horizontal = false;
+                _scrollView.vertical = true;
+            }
         }
-
-        private void DrawAltarPage()
-        {
-            _currentPage = ShopPageCharacters;
-
-            ShopPageCharacters.EnableContent();
-            ShopPageArtifacts.DisableContent();
-            AltarButton.interactable = false;
-            ArtifactsButton.interactable = true;
-            //ShopPageMagic.gameObject.SetActive(true);
-        }
-
-        private void DrawArtifactPage()
-        {
-            _currentPage = ShopPageArtifacts;
-
-            ShopPageCharacters.DisableContent();
-            ShopPageArtifacts.EnableContent();
-            ArtifactsButton.interactable = false;
-            AltarButton.interactable = true;
-            //ShopPageArtifacts.gameObject.SetActive(true);
-        }
-
 
         public void Buy(ShopItem item)
         {
@@ -131,6 +111,7 @@ namespace Assets.Scripts.Menu.ShopScripts
                 {
                     string messageText = "Купить \"" + item.Name + "\" за "
                                          + item.Cost + " " + item.CurrencyName + "?";
+                    print("Пробуем купить " + _lastSelectedItem.Name);
                     _dialogManager.ConfirmDialogYN(ConfirmPurchaseLastSelectedItem, messageText); //Показать окно подтверждения
                 }
                 else
@@ -146,11 +127,18 @@ namespace Assets.Scripts.Menu.ShopScripts
 
         private void ConfirmPurchaseLastSelectedItem()
         {
+            print("Пробуем купить 2 " + _lastSelectedItem.Name);
             _globalProgressManager.Spend(_lastSelectedItem.CurrencyName, _lastSelectedItem.Cost);
             CurrencyDisplay.UpdateCurrency();
             _lastSelectedItem.IsOwned = true;
             _currentPage.DrawPage();
             print("Куплен " + _lastSelectedItem.Name);
+            
+            if (_lastSelectedItem is CharacterBase)
+            {
+                var character = _lastSelectedItem as CharacterBase;
+                character.OwnedStats = new OwnedCharacterStats();
+            }
         }
 
 

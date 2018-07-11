@@ -23,7 +23,11 @@ namespace Assets.Scripts.Menu.ShopScripts.ShopPages.Slots
             base.DrawSlot(item);
             var character = item as CharacterBase;
             SkinTxt.text = character.SkinName;
-            LevelTxt.text = character.Level.ToString();
+            if (character.IsOwned)
+            {
+                LevelTxt.text = character.OwnedStats.Level.ToString();
+            }
+
             PriceTxt.text = character.Cost.ToString("N0");
             //PowerTxt.text = character.GetPower();
             //DefenceTxt.text = character.GetDefence();

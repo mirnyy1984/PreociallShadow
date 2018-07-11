@@ -35,12 +35,11 @@ namespace Assets.Scripts.Stats.Characters
         public int ArtifactCapacity = 1; //Сколько артефактов можно взять этому герою
         public int MaxEnergy = 3; //Энергия - тратится 1 за бой, восстанавливается за время или донат.
         public List<PlayerBehavoir> PunchesBehavoirs; //Список базовых приёмов
-        public int Level = 0; //Начальный уровень //TODO Нужна ли эта фича? Босс/герой которого мы победили появляется с определённым уровнем в магазине.
         public ElementName Element; //Стихия
         public GameObject CharacterPrefab; //Объект с мешем и анимацией
         
         [SerializeField]
-        public OwnedCharacterStats OwnedStats = new OwnedCharacterStats();
+        public OwnedCharacterStats OwnedStats;
 
         public int GetMaxEnergy()
         {

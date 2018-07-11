@@ -11,7 +11,7 @@ namespace Assets.Scripts.Menu.ShopScripts.ShopPages
     internal abstract class ShopPage : MonoBehaviour
     {
         public Shop Shop;
-        public Transform ShopContent;
+        public RectTransform ShopContent;
 
         public bool SortOrder = false;
         public bool HideTooHighLevel = false;

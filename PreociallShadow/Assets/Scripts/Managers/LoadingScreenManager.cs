@@ -19,8 +19,6 @@ namespace Assets.Scripts.Managers
 
         private void Awake()
         {
-            DontDestroyOnLoad(this);
-
             if (Instance == null)
             {
                 Instance = this;
@@ -45,7 +43,13 @@ namespace Assets.Scripts.Managers
 
         public void LoadLevelNoFade(int sceneIndex)
         {
+            //TODO Анимация загрузки
             SceneManager.LoadSceneAsync(sceneIndex);
+        }
+        public void LoadLevelNoFade(string sceneName)
+        {
+            //TODO Анимация загрузки
+            SceneManager.LoadSceneAsync(sceneName);
         }
 
         public void LoadLevel(int sceneIndex)
